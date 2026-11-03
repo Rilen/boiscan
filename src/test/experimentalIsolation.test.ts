@@ -23,6 +23,28 @@ describe('isolamento da ferramenta experimental', () => {
     for (const file of publicSources) {
       expect(readText(file)).not.toMatch(/from ['"][^'"]*experimental['"]/);
       expect(readText(file)).not.toMatch(/experimental\/tool|experimental\/engine/);
+      expect(readText(file)).not.toMatch(/experimental\/collection/);
+    }
+  });
+
+  it('a ferramenta de coleta usa o módulo de amostras e expõe os campos obrigatórios', () => {
+    const toolSource = readText('src/experimental/tool.ts');
+    const tool = readText('experimental/visual-tool.html');
+    expect(toolSource).toContain("from './collection'");
+    for (const id of [
+      'sampleId',
+      'animalId',
+      'weightKg',
+      'weighedAt',
+      'refLength',
+      'refUnit',
+      'refSamePlane',
+      'markScale',
+      'export',
+      'saveDraft',
+      'eligibility',
+    ]) {
+      expect(tool).toContain(`id="${id}"`);
     }
   });
 

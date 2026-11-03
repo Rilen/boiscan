@@ -14,7 +14,7 @@ conectado — receber uma estimativa de peso vivo e de arrobas comerciais de car
 >
 > **Identidade:** BoiScan · **Package Android provisório:** `br.com.boiscan.app`
 >
-> `BOISCAN_005_VISUAL_PIPELINE_READY_WEIGHT_BLOCKED`
+> `BOISCAN_006_COLLECTION_READY_WEIGHT_BLOCKED`
 
 ## O que funciona
 
@@ -35,10 +35,12 @@ conectado — receber uma estimativa de peso vivo e de arrobas comerciais de car
 - Nenhum cadastro, GPS, telemetria ou envio de imagem por padrão.
 - Migração automática da preferência de rendimento usada pela versão anterior
   (Arroba).
+- Ferramenta experimental local de coleta: máscara editável, referência física com
+  unidade, peso real/data, rascunho e exportação versionada — fora do app público.
 
 ## Motor experimental (não público)
 
-A missão 005 adicionou análise de fotografias reais, ROI e uma ferramenta local de inspeção. A base experimental continua **fora do app público**:
+A missão 005 adicionou análise de fotografias reais, ROI e uma ferramenta local de inspeção. A missão 006 completou o fluxo de coleta experimental (máscara, escala, peso real e exportação versionada). A base experimental continua **fora do app público**:
 
 ```text
 foto → silhueta → morfometria → referência de escala → regressão calibrada
@@ -47,12 +49,15 @@ foto → silhueta → morfometria → referência de escala → regressão calib
 - A implementação está em `src/experimental/` e tem testes próprios.
 - **Não está registrada no app público**: sem escala confiável, sem artefato válido
   e sem dados reais de pesagem, o motor continua indisponível.
+- A ferramenta local permite revisar a máscara, marcar um comprimento conhecido com
+  unidade, registrar peso real/data e exportar uma amostra elegível ou um rascunho.
 - Um artefato sintético é marcado como simulação e nunca é apresentado como peso real.
 - Nenhuma foto sai do dispositivo; não há API paga ou serviço externo.
 - O dataset de treino é apenas um contrato em `data/`; nenhuma foto/pesagem real foi
   incluída.
 
-Leia [docs/EXPERIMENTAL-ENGINE.md](docs/EXPERIMENTAL-ENGINE.md) e
+Leia [docs/EXPERIMENTAL-ENGINE.md](docs/EXPERIMENTAL-ENGINE.md),
+[docs/COLLECTION-PROTOCOL.md](docs/COLLECTION-PROTOCOL.md) e
 [data/README.md](data/README.md) antes de coletar dados.
 
 ## Telas
@@ -106,7 +111,7 @@ pode não ser oferecido pelo navegador.
 | `npm run experimental:train -- --input <csv> --output <json>` | Treino reproduzível com gates de dados |
 | `npm run experimental:images` | Avalia o pipeline nas fotos reais e gera overlays ignorados |
 
-Resultados da última execução: **145 testes aprovados**, typecheck limpo, build de
+Resultados da última execução: **165 testes aprovados**, typecheck limpo, build de
 produção concluído e auditoria de dependências sem vulnerabilidades. Testes de
 software não validam precisão preditiva.
 
@@ -175,6 +180,8 @@ Bubblewrap, template de Digital Asset Links e checklist completo.
 - [Motor experimental, escala, treino e bloqueios](docs/EXPERIMENTAL-ENGINE.md)
 - [Avaliação com fotografias reais e ferramenta visual](docs/REAL-IMAGE-EVALUATION.md)
 - [Checkpoint da Missão 005](docs/CHECKPOINT-005.md)
+- [Checkpoint da Missão 006](docs/CHECKPOINT-006.md)
+- [Protocolo de coleta experimental](docs/COLLECTION-PROTOCOL.md)
 - [Contrato e privacidade dos dados experimentais](data/README.md)
 - [Status do MVP e próximos passos](docs/MVP-STATUS.md)
 - [Empacotamento Android/TWA](android/README.md)
@@ -190,6 +197,9 @@ Bubblewrap, template de Digital Asset Links e checklist completo.
   gado validado.
 - O peso experimental permanece bloqueado: não há escala física, dataset de pesagens
   ou coeficientes calibrados para as fotos reais.
+- A ferramenta de coleta permite exportar amostras elegíveis, mas **nenhuma amostra
+  real de campo foi incluída** neste repositório. A escala marcada no mesmo plano
+  reduz, mas não elimina, erros de perspectiva.
 - A conferência de qualidade não detecta se o animal inteiro está no quadro; isso
   depende do futuro modelo de detecção/segmentação.
 - A precisão de uma única foto RGB depende de escala física, distância, ângulo,
@@ -202,5 +212,7 @@ Bubblewrap, template de Digital Asset Links e checklist completo.
 
 ## Governança desta missão
 
-`NO_COMMIT` · `NO_PUSH` · `NO_DEPLOY` · `NO_PAID_SERVICES` ·
-`LOCAL_IMPLEMENTATION_ONLY`
+Missão 006: branch e PR publicados para revisão, sem merge nesta missão.
+
+`NO_MERGE_006` · `NO_TAG` · `NO_RELEASE` · `NO_DEPLOY` · `NO_PAID_SERVICES` ·
+`NO_PRIVATE_DATA`

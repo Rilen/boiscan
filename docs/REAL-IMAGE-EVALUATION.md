@@ -1,5 +1,8 @@
 # Avaliação com fotografias reais — Missão 005
 
+> Documento histórico da missão 005. O fluxo operacional de coleta da missão 006 está
+> em [`COLLECTION-PROTOCOL.md`](COLLECTION-PROTOCOL.md).
+
 **Estado:** `BOISCAN_005_VISUAL_PIPELINE_READY_WEIGHT_BLOCKED`
 **Data:** 2026-11-03
 **Branch:** `feat/005-real-image-pipeline`
