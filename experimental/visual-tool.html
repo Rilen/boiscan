@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>BoiScan — inspeção experimental</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4f6f1;
+        --surface: #fff;
+        --text: #142019;
+        --muted: #52625a;
+        --border: #dbe3d7;
+        --accent: #2f6b4f;
+        --warn: #7a5210;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color-scheme: dark;
+          --bg: #0f1612;
+          --surface: #17211a;
+          --text: #eef3ee;
+          --muted: #a3b3a7;
+          --border: #2a3a2f;
+          --accent: #79b992;
+          --warn: #f0c674;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+        line-height: 1.5;
+      }
+      header, main { width: min(1100px, calc(100% - 28px)); margin: 0 auto; }
+      header { padding: 20px 0 10px; }
+      h1 { font-size: 1.4rem; margin: 0 0 4px; }
+      h2 { font-size: 1rem; margin: 18px 0 8px; }
+      p { margin: 0 0 10px; color: var(--muted); }
+      .warn {
+        border-left: 3px solid var(--warn);
+        background: color-mix(in srgb, var(--warn) 14%, var(--surface));
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        color: var(--text);
+      }
+      .layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr); gap: 18px; padding-bottom: 40px; }
+      @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 14px;
+      }
+      canvas { width: 100%; height: auto; display: block; background: #0b100d; border-radius: 10px; touch-action: none; }
+      label { font-size: 0.8rem; color: var(--muted); display: block; margin-bottom: 4px; }
+      input, select, button {
+        font: inherit;
+        color: inherit;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 7px 9px;
+      }
+      input[type='file'] { padding: 5px; width: 100%; }
+      button { cursor: pointer; background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 650; }
+      button.secondary { background: transparent; color: var(--text); }
+      button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; margin-bottom: 10px; }
+      .field { min-width: 80px; }
+      .field input { width: 100%; }
+      .status { font-size: 0.85rem; font-weight: 650; margin-top: 8px; }
+      pre {
+        margin: 8px 0 0;
+        max-height: 380px;
+        overflow: auto;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 0.72rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .muted { color: var(--muted); font-size: 0.8rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>BoiScan — inspeção experimental</h1>
+      <p>Ferramenta local de desenvolvimento. Não é a interface pública e não estima peso.</p>
+      <p class="warn">
+        Nenhuma fotografia é enviada a serviços externos. As medidas em pixels são
+        experimentais; sem escala física confiável e modelo validado, o peso permanece
+        indisponível.
+      </p>
+    </header>
+    <main class="layout">
+      <section class="card">
+        <div class="row">
+          <label style="flex:1; min-width:220px">Fotografia local
+            <input id="file" type="file" accept="image/jpeg,image/png,image/webp,image/avif" />
+          </label>
+          <label style="min-width:180px">Fixture pública (dev)
+            <select id="fixture"><option value="">—</option></select>
+          </label>
+        </div>
+        <canvas id="canvas" width="900" height="600" aria-label="Fotografia e máscara"></canvas>
+        <div class="row" style="margin-top:10px">
+          <label>Modo da máscara
+            <select id="brushMode">
+              <option value="off">Nenhum</option>
+              <option value="add">Adicionar</option>
+              <option value="erase">Apagar</option>
+            </select>
+          </label>
+          <label>Pincel <span id="brushValue">18</span> px
+            <input id="brushSize" type="range" min="4" max="80" value="18" />
+          </label>
+          <button id="analyze" type="button">Analisar</button>
+          <button id="resetEdits" class="secondary" type="button">Desfazer edições</button>
+        </div>
+        <p class="muted">
+          Ajuste a ROI (0–1, relativa à imagem) para isolar o animal. Depois, se a máscara
+          automática estiver incompleta, use o pincel para corrigir. A exportação registra
+          apenas geometria e metadados técnicos; a foto não é incluída.
+        </p>
+        <div id="status" class="status" role="status"></div>
+      </section>
+      <section class="card">
+        <h2>ROI e ações</h2>
+        <div class="row">
+          <div class="field"><label>x</label><input id="roiX" type="number" min="0" max="1" step="0.01" value="0" /></div>
+          <div class="field"><label>y</label><input id="roiY" type="number" min="0" max="1" step="0.01" value="0" /></div>
+          <div class="field"><label>largura</label><input id="roiW" type="number" min="0.01" max="1" step="0.01" value="1" /></div>
+          <div class="field"><label>altura</label><input id="roiH" type="number" min="0.01" max="1" step="0.01" value="1" /></div>
+        </div>
+        <div class="row">
+          <button id="export" class="secondary" type="button">Exportar JSON</button>
+          <button id="clearMask" class="secondary" type="button">Limpar máscara</button>
+        </div>
+        <h2>Diagnóstico</h2>
+        <pre id="diagnostics">Carregue uma foto.</pre>
+        <h2>Morfometria</h2>
+        <pre id="features">—</pre>
+        <h2>Pipeline</h2>
+        <pre id="pipeline">—</pre>
+      </section>
+    </main>
+    <script type="module" src="/src/experimental/tool.ts"></script>
+  </body>
+</html>

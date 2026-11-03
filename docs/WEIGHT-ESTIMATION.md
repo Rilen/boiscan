@@ -4,9 +4,11 @@
 
 **Não há modelo de estimativa de peso validado neste repositório.** A missão 004
 implementou uma base experimental local (segmentação clássica, morfometria, escala,
-regressão ridge, treinador e adaptador), mas não há dataset real, coeficientes
-treinados com pesagens reais nem validação independente. O motor padrão continua
-`unavailable` e o app público não exibe peso.
+regressão ridge, treinador e adaptador); a missão 005 avaliou cinco fotos públicas
+reais e adicionou ROI e uma ferramenta de inspeção. A segmentação automática foi
+apenas parcial; não há dataset real, coeficientes treinados com pesagens reais nem
+validação independente. O motor padrão continua `unavailable` e o app público não
+exibe peso.
 
 Este documento registra a viabilidade técnica, os requisitos de dados e o plano de
 validação. As afirmações abaixo são de engenharia e revisão de literatura geral; não
@@ -63,7 +65,8 @@ imagem, para evitar vazamento de identidade e superestimar a generalização.
 **Bloqueio atual:** não há dataset com pesagens reais e calibração de escala
 disponível neste repositório. Sem isso, treinar seria teatro. O pipeline e o
 treinador já recusam dados insuficientes/sintéticos apresentados como reais; veja
-`data/README.md` e `EXPERIMENTAL-ENGINE.md`.
+`data/README.md`, `EXPERIMENTAL-ENGINE.md` e a avaliação visual em
+`REAL-IMAGE-EVALUATION.md`.
 
 ## 3. Como obter escala física confiável?
 

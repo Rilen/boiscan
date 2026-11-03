@@ -1,8 +1,9 @@
 # Motor experimental de peso bovino
 
-**Estado:** `BOISCAN_004_DATA_DEPENDENCY_DOCUMENTED`
+**Estado:** `BOISCAN_005_VISUAL_PIPELINE_READY_WEIGHT_BLOCKED`
 **Versão do app:** 0.2.0 (não publicada com este motor)
 **Data:** 2026-11-03
+**Branch:** `feat/005-real-image-pipeline`
 
 ## 1. Resultado da missão
 
@@ -249,13 +250,36 @@ Limitações científicas e técnicas:
 - raça, idade e condição corporal não estão no modelo por falta de dados;
 - intervalo sintético não é calibração de campo;
 - nenhuma validação independente;
-- UI de anotação/exportação e de escala ainda não implementada.
+- A ferramenta local de anotação/exportação existe, mas a UI de escala no fluxo
+  público ainda não foi implementada.
 
-## 12. Bloqueios explícitos
+## 12. Atualização da missão 005
+
+Avaliação com cinco fotografias públicas em `experimental/fixtures/images/`:
+
+- ROI normalizada e modelo de fundo por k-means de 6 clusters;
+- máscara restrita à ROI, maior componente e fechamento de buracos;
+- ferramenta local `experimental/visual-tool.html` com ROI, pincel e exportação;
+- harness `npm run experimental:images`;
+- testes Node com JPEG real e teste headless de canvas.
+
+Resultado: a segmentação automática produziu apenas **máscaras parciais** em todas as
+imagens laterais; o caso frontal foi rejeitado por baixa cobertura. Portanto:
+
+- o peso continua **bloqueado**;
+- a ferramenta é o caminho operacional para correção manual de máscara;
+- não há modelo de segmentação com licença compatível integrado;
+- o app público permanece inalterado.
+
+Detalhes, tabela por imagem e exemplos visuais:
+[`REAL-IMAGE-EVALUATION.md`](REAL-IMAGE-EVALUATION.md).
+
+## 13. Bloqueios explícitos
 
 1. Dataset com pesagens reais, escala, consentimento e licença.
 2. Piloto em pelo menos três propriedades para o guardrail de treino.
 3. Coorte de teste independente, congelada.
 4. Segmentador robusto com licença compatível (ou segmentação clássica melhorada).
-5. UI de referência de escala e exportação de features.
+5. UI de referência de escala no fluxo público; a ferramenta local já exporta
+   features e permite correção de máscara.
 6. Validação estatística e revisão humana antes de qualquer promoção a validado.

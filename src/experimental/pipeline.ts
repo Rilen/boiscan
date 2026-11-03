@@ -5,7 +5,9 @@ import { predictWithModel, validateModelArtifact } from './model';
 import {
   segmentForeground,
   type SegmentationDiagnostics,
+  type SegmentationOptions,
   type SegmentationResult,
+  type SegmentationRoi,
 } from './segmentation';
 import type {
   ModelArtifact,
@@ -18,7 +20,8 @@ import type {
 export interface ExperimentalPipelineOptions {
   scaleReference?: ScaleReference;
   model?: ModelArtifact;
-  segment?: (frame: PixelFrame) => SegmentationResult;
+  segment?: (frame: PixelFrame, options?: SegmentationOptions) => SegmentationResult;
+  segmentationRoi?: SegmentationRoi;
   minimumMaskAreaPx?: number;
   maximumBorderTouchRatio?: number;
   minimumForegroundRatio?: number;
@@ -121,7 +124,9 @@ export function analyzeExperimentalFrame(
 
   let segmentation: SegmentationResult;
   try {
-    segmentation = (options.segment ?? segmentForeground)(frame);
+    segmentation = (options.segment ?? segmentForeground)(frame, {
+      roi: options.segmentationRoi,
+    } satisfies SegmentationOptions);
   } catch (error) {
     return rejected(
       'segmentation-error',

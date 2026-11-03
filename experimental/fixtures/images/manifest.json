@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "boiscan.real-images/1",
+  "retrievedAt": "2026-11-03",
+  "note": "Pequeno conjunto de fotografias públicas para avaliar o pipeline visual. Nenhum peso real é atribuído. Imagens CC BY exigem atribuição; consulte CREDITS.md.",
+  "images": [
+    {
+      "id": "holstein-1920s",
+      "file": "holstein_1920s.jpg",
+      "sha256": "1d696f6d56b3503488d2e1ee1eb43e2d92eaa179eac003fe6b617890d7b85e0b",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Holstein_Cow_(22815045791).jpg",
+      "author": "Community Archives",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "category": "usable",
+      "lateral": true,
+      "fullBody": true,
+      "target": "vaca Holstein em perfil",
+      "notes": "Slide histórico dos anos 1920; fundo de fazenda e vignette. Boa vista lateral, iluminação e contraste modestos.",
+      "roi": { "x": 0.07, "y": 0.12, "width": 0.87, "height": 0.8 }
+    },
+    {
+      "id": "bos-indicus-brazil",
+      "file": "bos_indicus_brazil.jpg",
+      "sha256": "79eef827d79c97a6d8293364379a3a4855f91b6bb5800836db40acebe177d7b6",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Bos_taurus_indicus_(cropped).jpg",
+      "author": "Scott Bauer, USDA ARS",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "category": "usable",
+      "lateral": true,
+      "fullBody": true,
+      "target": "touro zebu em perfil",
+      "notes": "Animal adulto, corpo inteiro, perfil quase perpendicular; fundo de vegetação com textura.",
+      "roi": { "x": 0.04, "y": 0.08, "width": 0.92, "height": 0.84 }
+    },
+    {
+      "id": "brahman-pasture",
+      "file": "brahman_pasture.jpg",
+      "sha256": "f9fa6600e25b7132b9129816c25caf029cde3da19f38b0dff59db6ef9dc88ef9",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Brahman_cattle.JPG",
+      "author": "",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "category": "difficult",
+      "lateral": true,
+      "fullBody": true,
+      "target": "vaca branca central, corpo inteiro",
+      "notes": "Vários animais, animal-alvo pequeno, fundo de pasto e montanhas; caso difícil para seleção automática.",
+      "roi": { "x": 0.3, "y": 0.3, "width": 0.48, "height": 0.42 }
+    },
+    {
+      "id": "instituto-frontal",
+      "file": "instituto_frontal.jpg",
+      "sha256": "fad4d4b4d7b38ed719880600452beb2f50f8e39cefdd73bb2951cd289776a75e",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Instituto_de_Zootecnia_-_Centro_Bovinos_de_Corte_(54314375358).jpg",
+      "author": "agriculturasp (Foto: Gilberto Marques / Secretaria da Agricultura do Estado de SP)",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "category": "inadequate",
+      "lateral": false,
+      "fullBody": true,
+      "target": "bovino vindo de frente",
+      "notes": "Enquadramento frontal, não serve para morfometria lateral; deve ser recusado ou sinalizado.",
+      "roi": { "x": 0.16, "y": 0.12, "width": 0.74, "height": 0.84 }
+    },
+    {
+      "id": "beef-cattle-ayr-1989",
+      "file": "beef_cattle_ayr_1989.jpg",
+      "sha256": "5f54ef55ab6633f372dab616495b4e41a5844d39fe0712d210aad0023cea4922",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Beef_cattle,_Ayr_1989_QUT-447.jpg",
+      "author": "Iraphne R. Childs",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "category": "difficult",
+      "lateral": true,
+      "fullBody": true,
+      "target": "bovino preto à direita",
+      "notes": "Vários animais e sombras fortes; animal-alvo à direita, em perfil. Testa seleção por ROI.",
+      "roi": { "x": 0.42, "y": 0.3, "width": 0.4, "height": 0.52 }
+    }
+  ]
+}

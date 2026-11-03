@@ -265,6 +265,9 @@ não detecta enquadramento, raça, oclusão ou presença de animal.
   dataset, splits, treino ridge, artefato, domínio e adaptador do motor.
 - `src/test/experimentalData.test.ts`: templates de coleta/features e exclusão de
   dados privados no Git.
+- `src/experimental/realImages.test.ts`: cinco fotos públicas licenciadas, máscaras
+  reais, ROI e rejeição do caso frontal.
+- `src/experimental/mask.test.ts`: componentes, buracos e pincel de máscara.
 
 Limitação: jsdom não renderiza canvas real. A análise de pixels é testada por
 funções puras; o caminho de canvas foi verificado manualmente em navegador
@@ -309,13 +312,19 @@ JDK 17, Android SDK ou Bubblewrap instalados e o host público ainda não existe
 A publicação em produção permanece bloqueada enquanto não houver modelo de peso
 validado; a listagem não deve sugerir que a estimativa está concluída.
 
-## 13. Base experimental (missão 004)
+## 13. Base experimental (missões 004/005)
 
 `src/experimental/` implementa um pipeline local isolado:
 
 ```text
-frame RGBA → segmentação clássica → máscara → morfometria → escala → ridge
+frame RGBA → ROI → segmentação clássica → máscara → morfometria → escala → ridge
 ```
+
+A missão 005 acrescentou ROI normalizada, modelo de fundo por k-means, cinco
+fotografias reais licenciadas, um harness de avaliação e a ferramenta local
+`experimental/visual-tool.html`. A ferramenta permite corrigir a máscara com pincel e
+exportar um relatório técnico, mas **não é uma entrada do build público** (não aparece
+em `dist/`).
 
 - `types.ts`: contratos de máscara, escala normalizada, features, artefato e métricas.
 - `segmentation.ts`: baseline por contraste de fundo; substituível por segmentador
@@ -332,5 +341,7 @@ frame RGBA → segmentação clássica → máscara → morfometria → escala �
   de não vazamento entre animal/propriedade.
 
 O motor **não está registrado no app público** e não altera o fluxo atual. A UI de
-marcação de escala e o dataset real ainda não existem. Detalhes, licenças avaliadas
-e bloqueios em `docs/EXPERIMENTAL-ENGINE.md` e `data/README.md`.
+marcação de escala no fluxo público e o dataset real ainda não existem. A segmentação
+automática foi apenas parcial nas cinco fotos reais; por isso o peso permanece
+bloqueado. Detalhes, licenças, resultados e bloqueios em
+`docs/EXPERIMENTAL-ENGINE.md`, `docs/REAL-IMAGE-EVALUATION.md` e `data/README.md`.

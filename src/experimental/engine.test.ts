@@ -38,6 +38,7 @@ const diagnostics = {
   threshold: 28,
   backgroundRgb: [30, 60, 30] as [number, number, number],
   foregroundRatio: 0.3,
+  roi: { x: 0, y: 0, width: 1, height: 1 },
   borderTouchRatio: 0,
   componentCount: 1,
   removedPixels: 0,
