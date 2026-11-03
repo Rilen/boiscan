@@ -1,8 +1,8 @@
 # Status do MVP
 
 **Data:** 2026-11-03
-**Estado:** `BOISCAN_004_DATA_DEPENDENCY_DOCUMENTED`
-**Estimativa preditiva:** base experimental implementada; **não validada e não ativa no app público**
+**Estado:** `BOISCAN_005_VISUAL_PIPELINE_READY_WEIGHT_BLOCKED`
+**Estimativa preditiva:** pipeline visual real avaliado; **peso bloqueado, não validado e não ativo no app público**
 
 ## Entregue
 
@@ -34,7 +34,8 @@
 | Android/TWA (preparação) | ⏳ | templates, package ID provisório e checklist; sem SDK/JDK para gerar AAB |
 | Motor experimental local | ✅ | pipeline morfometria + escala + ridge; não registrado no app |
 | Dataset/treino | ✅ infraestrutura | templates, validação, split agrupado, treinador e demo sintética |
-| Testes automatizados | ✅ | 133 testes, 17 arquivos |
+| Fotos reais + ferramenta | ✅ experimental | 5 fixtures licenciadas, ROI/pincel e exportação local; máscaras parciais |
+| Testes automatizados | ✅ | 145 testes, 19 arquivos |
 | Documentação | ✅ | README + docs técnicos + experimental + dados + Android |
 
 ## Telas
@@ -52,7 +53,7 @@
 
 ```text
 npm run typecheck   → sem erros
-npm test            → 17 arquivos, 133 testes aprovados
+npm test            → 19 arquivos, 145 testes aprovados
 npm run build       → dist/ gerado com sucesso
 ```
 
@@ -69,8 +70,9 @@ demonstram que o peso é estimado corretamente, porque não há modelo validado.
 
 - Modelo real treinado com pesagens reais ou pesos de visão computacional validados.
 - Ativação do motor experimental no app público/UI de escala.
+- Segmentação automática completa em fotos reais; a atual é parcial.
+- Dataset com pesagens e escala reais; peso continua indisponível.
 - Backend FastAPI de inferência (não havia modelo para servir).
-- Dataset com pesagens reais e calibração de escala.
 - Histórico de análises, contas, sincronização ou gestão de rebanho.
 - Reconhecimento de raça.
 - Intervalo de confiança real (só é exibido se vier do motor).
@@ -104,11 +106,11 @@ demonstram que o peso é estimado corretamente, porque não há modelo validado.
 
 ## Próxima missão recomendada
 
-**Executar o piloto de dados e instrumentar a coleta de features/escala**: usar os
-templates de `data/`, coletar fotos com marcador no plano do animal e pesagens reais
-em pelo menos três propriedades, congelar a coorte de teste e só então treinar o
-baseline. A UI de marcação de escala e a exportação de features são o elo
-operacional que falta; sem dados licenciados, não há modelo defensável.
+**Executar o piloto com marcador de escala e pesagens reais**: usar a ferramenta
+visual para anotar/corrigir máscaras, congelar a coorte por propriedade e medir o
+erro do baseline. Em paralelo, avaliar GrabCut/OpenCV.js ou segmentador compatível
+para reduzir a correção manual. Sem dados licenciados, a estimativa de peso continua
+bloqueada.
 
 Não é recomendado investir primeiro em novas telas ou em estética: o produto já
 funciona como funil honesto. O gargalo é evidência de dados.

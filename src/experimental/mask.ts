@@ -242,6 +242,34 @@ export function maskBorderTouchRatio(mask: BinaryMask): number {
   return touching / foreground;
 }
 
+/** Pinta um disco na máscara; usado pelo editor visual experimental. */
+export function paintMaskCircle(
+  mask: BinaryMask,
+  centerX: number,
+  centerY: number,
+  radius: number,
+  value: 0 | 1,
+): number {
+  assertMask(mask);
+  if (!Number.isFinite(radius) || radius < 0) {
+    throw new MaskError('invalid-threshold', 'Raio de pincel inválido.');
+  }
+  const r = Math.round(radius);
+  const radiusSquared = r * r;
+  let changed = 0;
+  for (let y = Math.max(0, Math.floor(centerY - r)); y <= Math.min(mask.height - 1, Math.ceil(centerY + r)); y += 1) {
+    for (let x = Math.max(0, Math.floor(centerX - r)); x <= Math.min(mask.width - 1, Math.ceil(centerX + r)); x += 1) {
+      if ((x - centerX) ** 2 + (y - centerY) ** 2 > radiusSquared) continue;
+      const index = y * mask.width + x;
+      if (mask.data[index] !== value) {
+        mask.data[index] = value;
+        changed += 1;
+      }
+    }
+  }
+  return changed;
+}
+
 export function maskIoU(a: BinaryMask, b: BinaryMask): number {
   assertMask(a);
   assertMask(b);

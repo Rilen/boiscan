@@ -14,7 +14,7 @@ conectado — receber uma estimativa de peso vivo e de arrobas comerciais de car
 >
 > **Identidade:** BoiScan · **Package Android provisório:** `br.com.boiscan.app`
 >
-> `BOISCAN_004_DATA_DEPENDENCY_DOCUMENTED`
+> `BOISCAN_005_VISUAL_PIPELINE_READY_WEIGHT_BLOCKED`
 
 ## O que funciona
 
@@ -38,7 +38,7 @@ conectado — receber uma estimativa de peso vivo e de arrobas comerciais de car
 
 ## Motor experimental (não público)
 
-A missão 004 adicionou uma base local de estimativa experimental:
+A missão 005 adicionou análise de fotografias reais, ROI e uma ferramenta local de inspeção. A base experimental continua **fora do app público**:
 
 ```text
 foto → silhueta → morfometria → referência de escala → regressão calibrada
@@ -104,8 +104,9 @@ pode não ser oferecido pelo navegador.
 | `npm run preview` | Serve o build de produção localmente |
 | `npm run experimental:demo` | Treina um artefato **sintético** e demonstra o pipeline; não é peso real |
 | `npm run experimental:train -- --input <csv> --output <json>` | Treino reproduzível com gates de dados |
+| `npm run experimental:images` | Avalia o pipeline nas fotos reais e gera overlays ignorados |
 
-Resultados da última execução: **133 testes aprovados**, typecheck limpo, build de
+Resultados da última execução: **145 testes aprovados**, typecheck limpo, build de
 produção concluído e auditoria de dependências sem vulnerabilidades. Testes de
 software não validam precisão preditiva.
 
@@ -140,12 +141,13 @@ src/
   config.ts   nome, versão e identificador Android
   domain/     regras de negócio (arrobas, validação e qualidade de imagem)
   engine/     contrato do motor, adaptador remoto, simulação e motor indisponível
-  experimental/ pipeline local de morfometria, escala, modelo e treinador
+  experimental/ pipeline local de morfometria, escala, modelo, treinador e ferramenta visual
+experimental/fixtures/  cinco fotos públicas licenciadas e manifesto de avaliação
   lib/        carregamento de imagem e análise de pixels no navegador
   hooks/      máquina de estados do fluxo
   components/ componentes de interface reutilizáveis
   screens/    telas do fluxo
-scripts/experimental/  CLIs de treino e demonstração sintética
+scripts/experimental/  CLIs de treino, demo sintética e avaliação de fotos reais
 data/         templates de coleta e features; dados privados ficam ignorados
 public/       manifesto, ícones, service worker, favicon e política de privacidade
 docs/         arquitetura, metodologia, motor experimental e status do MVP
@@ -171,6 +173,8 @@ Bubblewrap, template de Digital Asset Links e checklist completo.
 - [Arquitetura e contrato do motor](docs/ARCHITECTURE.md)
 - [Estimativa de peso: viabilidade, dados e validação](docs/WEIGHT-ESTIMATION.md)
 - [Motor experimental, escala, treino e bloqueios](docs/EXPERIMENTAL-ENGINE.md)
+- [Avaliação com fotografias reais e ferramenta visual](docs/REAL-IMAGE-EVALUATION.md)
+- [Checkpoint da Missão 005](docs/CHECKPOINT-005.md)
 - [Contrato e privacidade dos dados experimentais](data/README.md)
 - [Status do MVP e próximos passos](docs/MVP-STATUS.md)
 - [Empacotamento Android/TWA](android/README.md)
@@ -181,8 +185,11 @@ Bubblewrap, template de Digital Asset Links e checklist completo.
 - **Não há estimativa de peso real validada neste repositório.** O motor
   experimental está implementado, mas não há dataset real, coeficientes treinados
   com pesagens reais nem validação independente.
-- A segmentação atual é um baseline clássico para fundos controlados, não um
-  segmentador de gado validado.
+- A segmentação atual é um baseline clássico com ROI; nos cinco casos reais avaliados
+  ela produziu apenas máscaras parciais ou rejeitou a imagem. Não é um segmentador de
+  gado validado.
+- O peso experimental permanece bloqueado: não há escala física, dataset de pesagens
+  ou coeficientes calibrados para as fotos reais.
 - A conferência de qualidade não detecta se o animal inteiro está no quadro; isso
   depende do futuro modelo de detecção/segmentação.
 - A precisão de uma única foto RGB depende de escala física, distância, ângulo,

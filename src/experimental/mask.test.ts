@@ -8,6 +8,7 @@ import {
   maskBorderTouchRatio,
   maskBoundingBox,
   maskIoU,
+  paintMaskCircle,
   MaskError,
 } from './mask';
 import type { BinaryMask } from './types';
@@ -90,4 +91,19 @@ describe('máscaras binárias', () => {
     ).toThrow(MaskError);
     expect(() => maskIoU(createMask(2, 2), createMask(3, 2))).toThrow(MaskError);
   });
-});
+
+  it('pinta e apaga um disco de edição', () => {
+    const mask = createMask(20, 20);
+    expect(paintMaskCircle(mask, 10, 10, 3, 1)).toBeGreaterThan(0);
+    expect(mask.data[10 * 20 + 10]).toBe(1);
+    expect(countForeground(mask)).toBeGreaterThan(0);
+    paintMaskCircle(mask, 10, 10, 3, 0);
+    expect(countForeground(mask)).toBe(0);
+  });
+
+  it('não pinta fora dos limites da máscara', () => {
+    const mask = createMask(10, 10);
+    paintMaskCircle(mask, 0, 0, 8, 1);
+    expect(countForeground(mask)).toBeGreaterThan(0);
+    expect(mask.data.length).toBe(100);
+  });});

@@ -72,4 +72,20 @@ describe('segmentação clássica experimental', () => {
       }),
     ).toThrow(SegmentationError);
   });
-});
+
+  it('restringe a máscara à ROI normalizada', () => {
+    const image = frame(120, 80, [30, 60, 30]);
+    fillRect(image, 10, 10, 20, 20, [180, 100, 30]);
+    fillRect(image, 70, 40, 30, 20, [180, 100, 30]);
+    const result = segmentForeground(image, {
+      roi: { x: 0.5, y: 0.45, width: 0.35, height: 0.4 },
+    });
+    expect(result.diagnostics.roi).toEqual({
+      x: 0.5,
+      y: 0.45,
+      width: 0.35,
+      height: 0.4,
+    });
+    expect(result.mask.data[10 * 120 + 10]).toBe(0);
+    expect(result.mask.data.some(Boolean)).toBe(true);
+  });});
