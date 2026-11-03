@@ -312,7 +312,7 @@ JDK 17, Android SDK ou Bubblewrap instalados e o host público ainda não existe
 A publicação em produção permanece bloqueada enquanto não houver modelo de peso
 validado; a listagem não deve sugerir que a estimativa está concluída.
 
-## 13. Base experimental (missões 004/005)
+## 13. Base experimental (missões 004/005/006)
 
 `src/experimental/` implementa um pipeline local isolado:
 
@@ -322,9 +322,10 @@ frame RGBA → ROI → segmentação clássica → máscara → morfometria → 
 
 A missão 005 acrescentou ROI normalizada, modelo de fundo por k-means, cinco
 fotografias reais licenciadas, um harness de avaliação e a ferramenta local
-`experimental/visual-tool.html`. A ferramenta permite corrigir a máscara com pincel e
-exportar um relatório técnico, mas **não é uma entrada do build público** (não aparece
-em `dist/`).
+`experimental/visual-tool.html`. A missão 006 completou a coleta: referência física
+com unidade, peso real/data, rascunho e exportação `boiscan.collection-sample/1`.
+A ferramenta permite corrigir a máscara com pincel e marcar escala, mas **não é uma
+entrada do build público** (não aparece em `dist/`).
 
 - `types.ts`: contratos de máscara, escala normalizada, features, artefato e métricas.
 - `segmentation.ts`: baseline por contraste de fundo; substituível por segmentador
@@ -333,6 +334,8 @@ em `dist/`).
   cm após escala.
 - `scale.ts`: referência de comprimento conhecido, coordenadas normalizadas (0–1),
   mesma plano e incerteza relativa máxima de 10%.
+- `collection.ts`: esquema de amostra versionado, unidades, RLE da máscara,
+  elegibilidade e rascunho; não gera peso.
 - `model.ts` e `training.ts`: regressão ridge, padronização, split agrupado,
   métricas, intervalos empíricos e bloqueio de extrapolação.
 - `engine.ts`: adaptador `WeightEstimationEngine` que só devolve `experimental` ou

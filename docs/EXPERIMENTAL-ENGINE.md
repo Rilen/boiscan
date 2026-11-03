@@ -1,9 +1,9 @@
 # Motor experimental de peso bovino
 
-**Estado:** `BOISCAN_005_VISUAL_PIPELINE_READY_WEIGHT_BLOCKED`
+**Estado:** `BOISCAN_006_COLLECTION_READY_WEIGHT_BLOCKED`
 **Versão do app:** 0.2.0 (não publicada com este motor)
 **Data:** 2026-11-03
-**Branch:** `feat/005-real-image-pipeline`
+**Branch:** `feat/006-collection-flow`
 
 ## 1. Resultado da missão
 
@@ -34,6 +34,8 @@ por dados. Não é um modelo validado.
 | `src/experimental/training.ts` | Split agrupado, regressão ridge, métricas, faixas e quantis |
 | `src/experimental/dataset.ts` | CSV de features, validação, consentimento/licença e fingerprint |
 | `src/experimental/pipeline.ts` | Orquestração e estados de rejeição/indisponibilidade |
+| `src/experimental/collection.ts` | Amostra versionada: unidades, RLE da máscara, elegibilidade e rascunho |
+| `src/experimental/tool.ts` | Ferramenta local: máscara, escala, peso real e exportação |
 | `src/experimental/browser.ts` | Decodificação local e canvas (máx. 512 px) |
 | `src/experimental/engine.ts` | Adaptador `WeightEstimationEngine`, sempre experimental/indisponível |
 | `src/experimental/synthetic.ts` | Dataset sintético determinístico para testar o pipeline |
@@ -250,8 +252,9 @@ Limitações científicas e técnicas:
 - raça, idade e condição corporal não estão no modelo por falta de dados;
 - intervalo sintético não é calibração de campo;
 - nenhuma validação independente;
-- A ferramenta local de anotação/exportação existe, mas a UI de escala no fluxo
-  público ainda não foi implementada.
+- A ferramenta local de coleta marca escala, registra peso real/data e exporta
+  amostras elegíveis ou rascunhos, mas a UI de escala no fluxo público ainda não foi
+  implementada.
 
 ## 12. Atualização da missão 005
 
@@ -280,6 +283,29 @@ Detalhes, tabela por imagem e exemplos visuais:
 2. Piloto em pelo menos três propriedades para o guardrail de treino.
 3. Coorte de teste independente, congelada.
 4. Segmentador robusto com licença compatível (ou segmentação clássica melhorada).
-5. UI de referência de escala no fluxo público; a ferramenta local já exporta
-   features e permite correção de máscara.
+5. UI de referência de escala no fluxo público; a ferramenta experimental de coleta
+   já permite marcar escala, registrar peso real e exportar features.
 6. Validação estatística e revisão humana antes de qualquer promoção a validado.
+
+## 14. Atualização da missão 006 — coleta
+
+A ferramenta `experimental/visual-tool.html` passou a cobrir o fluxo operacional de
+coleta, sem alterar o app público:
+
+```text
+foto local → ROI → máscara corrigida → referência (mm/cm/m) → peso real + data
+           → amostra versionada (eligible | draft)
+```
+
+- `collection.ts` é puro e testável: conversão de unidades, RLE da máscara,
+  elegibilidade, rascunho e medidas físicas condicionais.
+- A referência exige dois pontos distintos, mesmo plano confirmado e incerteza
+  relativa ≤ 10%; a ferramenta documenta que isso não elimina erros de perspectiva.
+- A amostra `boiscan.collection-sample/1` registra IDs pseudônimos, SHA-256 e
+  dimensões da imagem, máscara final reproduzível, origem/correções da segmentação,
+  pontos e unidade da referência, features com unidades, peso/data e avisos.
+- Sem escala válida e confiável, `features.physical` é `null` e nenhuma dimensão
+  física é apresentada. Nenhum peso, confiança ou precisão é gerado.
+- Máscara vazia, escala degenerada e valores não positivos são rejeitados; amostras
+  incompletas só podem ser salvas como rascunho.
+- Protocolo de campo: [`COLLECTION-PROTOCOL.md`](COLLECTION-PROTOCOL.md).
