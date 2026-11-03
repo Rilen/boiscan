@@ -124,6 +124,8 @@ interface EstimationRequest {
   dressingPercent: number;
   /** Opcional: raça, idade, sexo e condição corporal para calibração futura. */
   animal?: AnimalMetadata;
+  /** Opcional: referência de escala para o motor experimental; a UI pública não a envia. */
+  scaleReference?: ScaleReference;
 }
 
 type EstimationResult =
@@ -259,6 +261,10 @@ não detecta enquadramento, raça, oclusão ou presença de animal.
   comportamento do service worker.
 - `src/test/android.test.ts`: package ID provisório, target API 36 e ausência de
   segredos nos templates Android.
+- `src/experimental/*.test.ts`: máscaras, segmentação, morfometria, escala,
+  dataset, splits, treino ridge, artefato, domínio e adaptador do motor.
+- `src/test/experimentalData.test.ts`: templates de coleta/features e exclusão de
+  dados privados no Git.
 
 Limitação: jsdom não renderiza canvas real. A análise de pixels é testada por
 funções puras; o caminho de canvas foi verificado manualmente em navegador
@@ -302,3 +308,29 @@ Nesta missão não foram gerados projeto Gradle, AAB, APK nem chaves, porque nã
 JDK 17, Android SDK ou Bubblewrap instalados e o host público ainda não existe.
 A publicação em produção permanece bloqueada enquanto não houver modelo de peso
 validado; a listagem não deve sugerir que a estimativa está concluída.
+
+## 13. Base experimental (missão 004)
+
+`src/experimental/` implementa um pipeline local isolado:
+
+```text
+frame RGBA → segmentação clássica → máscara → morfometria → escala → ridge
+```
+
+- `types.ts`: contratos de máscara, escala normalizada, features, artefato e métricas.
+- `segmentation.ts`: baseline por contraste de fundo; substituível por segmentador
+  futuro; não é modelo validado de gado.
+- `morphometrics.ts`: área, perímetro, caixa, eixos por PCA, perfis e conversão para
+  cm após escala.
+- `scale.ts`: referência de comprimento conhecido, coordenadas normalizadas (0–1),
+  mesma plano e incerteza relativa máxima de 10%.
+- `model.ts` e `training.ts`: regressão ridge, padronização, split agrupado,
+  métricas, intervalos empíricos e bloqueio de extrapolação.
+- `engine.ts`: adaptador `WeightEstimationEngine` que só devolve `experimental` ou
+  `unavailable`; nunca `ok`/`validated`.
+- `dataset.ts` e `data/`: schema CSV, consentimento, licença, fingerprint e regras
+  de não vazamento entre animal/propriedade.
+
+O motor **não está registrado no app público** e não altera o fluxo atual. A UI de
+marcação de escala e o dataset real ainda não existem. Detalhes, licenças avaliadas
+e bloqueios em `docs/EXPERIMENTAL-ENGINE.md` e `data/README.md`.

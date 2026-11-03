@@ -2,14 +2,16 @@
 
 ## Status
 
-**Não há modelo de estimativa de peso neste repositório.** Nada foi treinado,
-baixado ou declarado validado. O aplicativo entrega captura, conferência de
-qualidade e o contrato para conectar um modelo futuro. O motor padrão é
-`unavailable` e não produz números.
+**Não há modelo de estimativa de peso validado neste repositório.** A missão 004
+implementou uma base experimental local (segmentação clássica, morfometria, escala,
+regressão ridge, treinador e adaptador), mas não há dataset real, coeficientes
+treinados com pesagens reais nem validação independente. O motor padrão continua
+`unavailable` e o app público não exibe peso.
 
 Este documento registra a viabilidade técnica, os requisitos de dados e o plano de
 validação. As afirmações abaixo são de engenharia e revisão de literatura geral; não
-substituem um estudo experimental.
+substituem um estudo experimental. A implementação e os bloqueios estão detalhados
+em [`EXPERIMENTAL-ENGINE.md`](EXPERIMENTAL-ENGINE.md).
 
 ## 1. É tecnicamente possível estimar peso com uma única foto RGB?
 
@@ -59,7 +61,9 @@ do erro-alvo. O dataset deve ser dividido **por animal e por fazenda**, não ape
 imagem, para evitar vazamento de identidade e superestimar a generalização.
 
 **Bloqueio atual:** não há dataset com pesagens reais e calibração de escala
-disponível neste repositório. Sem isso, treinar seria teatro.
+disponível neste repositório. Sem isso, treinar seria teatro. O pipeline e o
+treinador já recusam dados insuficientes/sintéticos apresentados como reais; veja
+`data/README.md` e `EXPERIMENTAL-ENGINE.md`.
 
 ## 3. Como obter escala física confiável?
 

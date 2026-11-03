@@ -7,14 +7,14 @@ perfil lateral, conferir a qualidade da foto e — quando houver um modelo valid
 conectado — receber uma estimativa de peso vivo e de arrobas comerciais de carcaça.
 
 > **Estado atual:** MVP técnico funcional, ainda sem modelo de visão computacional
-> validado. Por padrão, o app **não exibe peso**: mostra captura, pré-visualização,
-> conferência técnica da imagem e uma mensagem clara de indisponibilidade. Qualquer
-> número visto fora do modo de simulação explícita vem de um backend configurado pelo
-> operador.
+> validado. A base experimental (morfometria + regressão) está implementada e testada,
+> mas **não é ativada no app público**. Por padrão, o app **não exibe peso**: mostra
+> captura, pré-visualização, conferência técnica da imagem e uma mensagem clara de
+> indisponibilidade.
 >
 > **Identidade:** BoiScan · **Package Android provisório:** `br.com.boiscan.app`
 >
-> `BOISCAN_002_READY_FOR_GITHUB_PUBLICATION_REVIEW`
+> `BOISCAN_004_DATA_DEPENDENCY_DOCUMENTED`
 
 ## O que funciona
 
@@ -35,6 +35,25 @@ conectado — receber uma estimativa de peso vivo e de arrobas comerciais de car
 - Nenhum cadastro, GPS, telemetria ou envio de imagem por padrão.
 - Migração automática da preferência de rendimento usada pela versão anterior
   (Arroba).
+
+## Motor experimental (não público)
+
+A missão 004 adicionou uma base local de estimativa experimental:
+
+```text
+foto → silhueta → morfometria → referência de escala → regressão calibrada
+```
+
+- A implementação está em `src/experimental/` e tem testes próprios.
+- **Não está registrada no app público**: sem escala confiável, sem artefato válido
+  e sem dados reais de pesagem, o motor continua indisponível.
+- Um artefato sintético é marcado como simulação e nunca é apresentado como peso real.
+- Nenhuma foto sai do dispositivo; não há API paga ou serviço externo.
+- O dataset de treino é apenas um contrato em `data/`; nenhuma foto/pesagem real foi
+  incluída.
+
+Leia [docs/EXPERIMENTAL-ENGINE.md](docs/EXPERIMENTAL-ENGINE.md) e
+[data/README.md](data/README.md) antes de coletar dados.
 
 ## Telas
 
@@ -83,8 +102,10 @@ pode não ser oferecido pelo navegador.
 | `npm run typecheck` | Verificação TypeScript sem emitir arquivos |
 | `npm run build` | Typecheck + build de produção em `dist/` |
 | `npm run preview` | Serve o build de produção localmente |
+| `npm run experimental:demo` | Treina um artefato **sintético** e demonstra o pipeline; não é peso real |
+| `npm run experimental:train -- --input <csv> --output <json>` | Treino reproduzível com gates de dados |
 
-Resultados da última execução: **69 testes aprovados**, typecheck limpo, build de
+Resultados da última execução: **133 testes aprovados**, typecheck limpo, build de
 produção concluído e auditoria de dependências sem vulnerabilidades. Testes de
 software não validam precisão preditiva.
 
@@ -119,12 +140,15 @@ src/
   config.ts   nome, versão e identificador Android
   domain/     regras de negócio (arrobas, validação e qualidade de imagem)
   engine/     contrato do motor, adaptador remoto, simulação e motor indisponível
+  experimental/ pipeline local de morfometria, escala, modelo e treinador
   lib/        carregamento de imagem e análise de pixels no navegador
   hooks/      máquina de estados do fluxo
   components/ componentes de interface reutilizáveis
   screens/    telas do fluxo
+scripts/experimental/  CLIs de treino e demonstração sintética
+data/         templates de coleta e features; dados privados ficam ignorados
 public/       manifesto, ícones, service worker, favicon e política de privacidade
-docs/         arquitetura, metodologia de peso e status do MVP
+docs/         arquitetura, metodologia, motor experimental e status do MVP
 android/      configuração de referência TWA e checklist da Google Play
 ```
 
@@ -146,14 +170,19 @@ Bubblewrap, template de Digital Asset Links e checklist completo.
 
 - [Arquitetura e contrato do motor](docs/ARCHITECTURE.md)
 - [Estimativa de peso: viabilidade, dados e validação](docs/WEIGHT-ESTIMATION.md)
+- [Motor experimental, escala, treino e bloqueios](docs/EXPERIMENTAL-ENGINE.md)
+- [Contrato e privacidade dos dados experimentais](data/README.md)
 - [Status do MVP e próximos passos](docs/MVP-STATUS.md)
 - [Empacotamento Android/TWA](android/README.md)
 - [Checklist Google Play](android/CHECKLIST.md)
 
 ## Limites conhecidos
 
-- **Não há estimativa de peso real neste repositório.** A arquitetura está pronta
-  para receber um modelo, mas nenhum modelo foi treinado ou validado aqui.
+- **Não há estimativa de peso real validada neste repositório.** O motor
+  experimental está implementado, mas não há dataset real, coeficientes treinados
+  com pesagens reais nem validação independente.
+- A segmentação atual é um baseline clássico para fundos controlados, não um
+  segmentador de gado validado.
 - A conferência de qualidade não detecta se o animal inteiro está no quadro; isso
   depende do futuro modelo de detecção/segmentação.
 - A precisão de uma única foto RGB depende de escala física, distância, ângulo,

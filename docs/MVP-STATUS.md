@@ -1,8 +1,8 @@
 # Status do MVP
 
 **Data:** 2026-11-03
-**Estado:** `BOISCAN_002_READY_FOR_GITHUB_PUBLICATION_REVIEW`
-**Estimativa preditiva:** não implementada / não validada
+**Estado:** `BOISCAN_004_DATA_DEPENDENCY_DOCUMENTED`
+**Estimativa preditiva:** base experimental implementada; **não validada e não ativa no app público**
 
 ## Entregue
 
@@ -32,8 +32,10 @@
 | Privacidade | ✅ | sem cadastro/GPS/analytics; upload remoto só com consentimento explícito |
 | Acessibilidade básica | ✅ | skip link, foco visível, labels, `aria-live`, alvos ≥ 44 px |
 | Android/TWA (preparação) | ⏳ | templates, package ID provisório e checklist; sem SDK/JDK para gerar AAB |
-| Testes automatizados | ✅ | 69 testes, 7 arquivos |
-| Documentação | ✅ | README + 3 docs técnicos + android/README + checklist |
+| Motor experimental local | ✅ | pipeline morfometria + escala + ridge; não registrado no app |
+| Dataset/treino | ✅ infraestrutura | templates, validação, split agrupado, treinador e demo sintética |
+| Testes automatizados | ✅ | 133 testes, 17 arquivos |
+| Documentação | ✅ | README + docs técnicos + experimental + dados + Android |
 
 ## Telas
 
@@ -50,7 +52,7 @@
 
 ```text
 npm run typecheck   → sem erros
-npm test            → 7 arquivos, 69 testes aprovados
+npm test            → 17 arquivos, 133 testes aprovados
 npm run build       → dist/ gerado com sucesso
 ```
 
@@ -65,7 +67,8 @@ demonstram que o peso é estimado corretamente, porque não há modelo validado.
 
 ## Não entregue (por escopo e por bloqueio)
 
-- Modelo treinado ou pesos de visão computacional.
+- Modelo real treinado com pesagens reais ou pesos de visão computacional validados.
+- Ativação do motor experimental no app público/UI de escala.
 - Backend FastAPI de inferência (não havia modelo para servir).
 - Dataset com pesagens reais e calibração de escala.
 - Histórico de análises, contas, sincronização ou gestão de rebanho.
@@ -79,7 +82,12 @@ demonstram que o peso é estimado corretamente, porque não há modelo validado.
 ## Limitações conhecidas
 
 - A qualidade técnica não verifica se o animal inteiro está enquadrado.
+- A segmentação experimental é clássica e limitada a fundos controlados; não é um
+  modelo de gado validado.
+- O motor experimental não está ligado à UI pública: falta a marcação de escala e a
+  exportação de features; sem elas, não há fluxo de campo.
 - Sem escala física, uma foto única não determina peso absoluto com confiança.
+- A demonstração sintética tem métricas apenas de pipeline; não são desempenho real.
 - Rotação/correção de orientação usa CSS na prévia e canvas na análise; EXIF é
   tratado pelo navegador ao decodificar.
 - O adaptador remoto considera o modelo experimental até a resposta; a validação é
@@ -96,11 +104,11 @@ demonstram que o peso é estimado corretamente, porque não há modelo validado.
 
 ## Próxima missão recomendada
 
-**Montar o piloto de dados e o baseline morfométrico auditável** (Fase 0 + Fase 1
-de `WEIGHT-ESTIMATION.md`): schema de coleta, protocolo de escala, pesagens reais em
-pelo menos duas propriedades e congelamento de uma coorte de teste. Sem isso,
-qualquer modelagem seria não verificável. A segunda entrega, já com dados, deve ser
-segmentação + medidas corporais + regressão calibrada, comparada a baselines.
+**Executar o piloto de dados e instrumentar a coleta de features/escala**: usar os
+templates de `data/`, coletar fotos com marcador no plano do animal e pesagens reais
+em pelo menos três propriedades, congelar a coorte de teste e só então treinar o
+baseline. A UI de marcação de escala e a exportação de features são o elo
+operacional que falta; sem dados licenciados, não há modelo defensável.
 
 Não é recomendado investir primeiro em novas telas ou em estética: o produto já
 funciona como funil honesto. O gargalo é evidência de dados.

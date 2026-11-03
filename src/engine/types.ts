@@ -1,4 +1,5 @@
 import type { ImageQuality } from '../domain/imageQuality';
+import type { ScaleReference } from '../experimental/types';
 
 export type EngineAvailability = 'validated' | 'experimental' | 'unavailable';
 
@@ -22,6 +23,11 @@ export interface EstimationRequest {
   quality: ImageQuality;
   dressingPercent: number;
   animal?: AnimalMetadata;
+  /**
+   * Contexto experimental opcional. O fluxo público não fornece este campo;
+   * a UI de escala só será ligada após revisão do motor e dos dados.
+   */
+  scaleReference?: ScaleReference;
 }
 
 export interface ModelInfo {
@@ -48,7 +54,15 @@ export interface EstimateSuccess {
 
 export interface EstimateUnavailable {
   status: 'unavailable';
-  reason: 'no-validated-model' | 'remote-unavailable' | 'not-configured';
+  reason:
+    | 'no-validated-model'
+    | 'remote-unavailable'
+    | 'not-configured'
+    | 'experimental-image-rejected'
+    | 'scale-reference-required'
+    | 'scale-unreliable'
+    | 'experimental-model-unavailable'
+    | 'experimental-out-of-domain';
   message: string;
   details: string[];
 }

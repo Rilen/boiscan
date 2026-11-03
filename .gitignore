@@ -25,3 +25,13 @@ android/app/release/
 *.apk
 secrets/
 serviceAccount*.json
+
+# Dados experimentais e artefatos locais
+data/private/
+data/raw/
+data/images/
+data/masks/
+data/features/
+experimental-output/
+*.onnx
+*.tfjs
