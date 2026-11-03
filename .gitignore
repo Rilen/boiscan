@@ -1,0 +1,27 @@
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*
+!.env.example
+.vite/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Android / assinatura / artefatos de build
+android/.gradle/
+android/local.properties
+android/app/build/
+android/build/
+android/app/release/
+*.jks
+*.keystore
+*.aab
+*.apk
+secrets/
+serviceAccount*.json

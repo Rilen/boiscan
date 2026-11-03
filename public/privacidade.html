@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1f4d38" />
+    <meta name="description" content="Política de Privacidade do BoiScan." />
+    <title>Política de Privacidade — BoiScan</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4f6f1;
+        --surface: #ffffff;
+        --text: #142019;
+        --muted: #52625a;
+        --border: #dbe3d7;
+        --accent: #2f6b4f;
+        --accent-soft: #e3efe6;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color-scheme: dark;
+          --bg: #0f1612;
+          --surface: #17211a;
+          --text: #eef3ee;
+          --muted: #a3b3a7;
+          --border: #2a3a2f;
+          --accent: #79b992;
+          --accent-soft: #20342a;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+        line-height: 1.6;
+      }
+      .wrap {
+        width: min(100% - 32px, 720px);
+        margin: 0 auto;
+        padding: 28px 0 56px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: inherit;
+        text-decoration: none;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+      .mark {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 11px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 800;
+      }
+      .card {
+        margin-top: 22px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: clamp(20px, 5vw, 34px);
+      }
+      h1 {
+        font-size: clamp(1.8rem, 6vw, 2.4rem);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin: 26px 0 6px;
+      }
+      h2 {
+        font-size: 1.06rem;
+        margin: 30px 0 8px;
+        letter-spacing: -0.01em;
+      }
+      p, li { color: var(--muted); }
+      p { margin: 0 0 12px; }
+      ul { margin: 0 0 12px; padding-left: 20px; }
+      li { margin-bottom: 6px; }
+      strong { color: var(--text); }
+      .meta { font-size: 0.78rem; color: var(--muted); }
+      .summary {
+        background: var(--accent-soft);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 16px;
+        margin: 18px 0 4px;
+        font-size: 0.9rem;
+      }
+      .summary p { margin: 0; color: var(--text); }
+      a { color: var(--accent); text-underline-offset: 2px; }
+      a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+      .back {
+        display: inline-block;
+        margin-top: 22px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .notice {
+        margin: 18px 0;
+        padding: 12px 14px;
+        border-left: 3px solid var(--accent);
+        background: var(--accent-soft);
+        border-radius: 10px;
+        font-size: 0.88rem;
+        color: var(--text);
+      }
+      footer { margin-top: 24px; font-size: 0.75rem; color: var(--muted); }
+      code { font-size: 0.86em; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="BoiScan — início">
+        <span class="mark" aria-hidden="true">B</span>
+        <span>BoiScan</span>
+      </a>
+
+      <article class="card">
+        <p class="meta">Última atualização: 3 de novembro de 2026 · Versão 1.0</p>
+        <h1>Política de Privacidade</h1>
+        <p>
+          Esta política descreve como o BoiScan trata dados ao ser usado no navegador ou
+          como aplicativo Android.
+        </p>
+
+        <div class="summary">
+          <p>
+            <strong>Resumo:</strong> o BoiScan não exige cadastro, não usa rastreamento,
+            não coleta localização e, por padrão, não envia nem armazena fotografias. A
+            foto é processada no seu aparelho.
+          </p>
+        </div>
+
+        <h2>1. Quem somos</h2>
+        <p>
+          O BoiScan é um projeto de software independente. O canal público de privacidade
+          é o repositório
+          <a href="https://github.com/Rilen/boiscan/issues" rel="noopener noreferrer">
+            github.com/Rilen/boiscan/issues</a
+          >. Um endereço de e-mail dedicado será publicado nesta página antes da
+          distribuição pública na Google Play.
+        </p>
+
+        <h2>2. Dados tratados</h2>
+        <ul>
+          <li>
+            <strong>Fotografias:</strong> a imagem escolhida ou capturada é usada apenas
+            para pré-visualização e conferência técnica no seu aparelho. Ela não é
+            enviada aos servidores do desenvolvedor nem armazenada pelo aplicativo.
+          </li>
+          <li>
+            <strong>Preferência de rendimento de carcaça:</strong> o percentual escolhido
+            é salvo no armazenamento local do navegador (<code>localStorage</code>), no
+            seu aparelho, para lembrar sua preferência.
+          </li>
+          <li>
+            <strong>Não coletados:</strong> nome, e-mail, telefone, cadastro, localização
+            GPS, contatos, identificadores de publicidade, analytics, cookies de
+            rastreamento e telemetria.
+          </li>
+        </ul>
+
+        <h2>3. Como as fotos são processadas</h2>
+        <p>
+          A conferência de qualidade (resolução, luz, contraste e nitidez) ocorre
+          localmente no navegador. O aplicativo não mantém um histórico de fotos. Quando
+          você troca ou remove uma imagem, a referência temporária usada na tela é
+          liberada.
+        </p>
+
+        <h2>4. Modo remoto opcional</h2>
+        <p>
+          Uma instalação pode ser configurada por seu operador para usar um serviço
+          externo de estimativa. Nesse caso, o envio da foto só acontece após uma
+          autorização explícita na tela de conferência, e o serviço de destino deve ser
+          informado na própria instalação. A versão pública distribuída sem essa
+          configuração não envia fotos.
+        </p>
+
+        <h2>5. Compartilhamento e venda</h2>
+        <p>
+          O BoiScan não vende, aluga nem compartilha dados pessoais para publicidade. O
+          provedor de hospedagem do site pode registrar dados técnicos padrão de acesso
+          (como endereço IP, data e tipo de navegador) para segurança e entrega do
+          serviço, conforme a política desse provedor.
+        </p>
+
+        <h2>6. Retenção</h2>
+        <p>
+          O BoiScan não retém fotografias. A preferência de rendimento permanece no
+          armazenamento local até você limpar os dados do site ou do aplicativo.
+        </p>
+
+        <h2>7. Segurança</h2>
+        <p>
+          O processamento local reduz a exposição dos dados. Não há chaves, credenciais
+          ou bancos de dados no aplicativo. A distribuição pública deve ocorrer por
+          HTTPS.
+        </p>
+
+        <h2>8. Seus direitos (LGPD)</h2>
+        <p>
+          Como o BoiScan não mantém cadastro nem base de dados pessoais no servidor, não
+          há conta a excluir. Você pode limpar a preferência local nas configurações do
+          navegador ou do Android. Para dúvidas, solicitações ou exercício de direitos
+          previstos na Lei Geral de Proteção de Dados, use o canal indicado no item 1.
+        </p>
+
+        <h2>9. Crianças e adolescentes</h2>
+        <p>
+          O BoiScan é uma ferramenta técnica de apoio ao manejo bovino e não é destinado
+          a crianças. Não há cadastro, conteúdo social ou coleta intencional de dados de
+          menores.
+        </p>
+
+        <h2>10. Estimativas e limitações</h2>
+        <p>
+          O BoiScan não garante precisão de peso. A estimativa de peso por fotografia só
+          é exibida quando um modelo validado está conectado e nunca dispensa pesagem
+          oficial. Este aplicativo não deve ser usado para decisões comerciais sem
+          validação apropriada.
+        </p>
+
+        <h2>11. Alterações</h2>
+        <p>
+          Esta política pode ser atualizada. A data de revisão será alterada nesta página.
+          Mudanças relevantes de coleta ou envio de dados exigirão aviso claro antes da
+          entrada em vigor.
+        </p>
+
+        <a class="back" href="/">← Voltar ao BoiScan</a>
+        <footer>BoiScan · Política de Privacidade v1.0</footer>
+      </article>
+    </div>
+  </body>
+</html>
