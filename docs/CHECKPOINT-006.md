@@ -60,14 +60,16 @@ Uma amostra só é `eligible` quando:
 
 - IDs são válidos e pseudônimos;
 - a imagem tem dimensões positivas e a máscara não está vazia nem incompatível;
+- as características extraídas correspondem à máscara final e às dimensões da
+  imagem (área, máscara, imagem);
 - a referência tem comprimento positivo, unidade válida, dois pontos distintos,
   mesmo plano confirmado e incerteza relativa ≤ 10%;
 - o peso real é positivo;
 - a data da pesagem é real e não futura.
 
 Caso contrário, permanece `draft` com a lista de pendências. Máscara vazia, escala
-degenerada e valores não positivos são rejeitados explicitamente. Nenhum peso,
-confiança ou precisão é gerado.
+degenerada, características ausentes/inconsistentes e valores não positivos são
+rejeitados explicitamente. Nenhum peso, confiança ou precisão é gerado.
 
 ## Verificação visual
 
@@ -76,10 +78,11 @@ Fluxo exercitado em Chrome headless com a fixture `bos_indicus-brazil`:
 - fixture carregada localmente e máscara automática aplicada;
 - referência marcada por dois cliques em `1,5 m`, com `samePlaneAsAnimal`;
 - amostra completa avaliada como `eligible`;
-- exportação real gerou `S-EXPORT-006.json` com
-  `boiscan.collection-sample/1`, SHA-256/dimensões da imagem, máscara
-  `rle-0-1-v1`, referência `150 cm`, features em `cm`/`cm^2`, peso `512,5 kg`,
-  data e avisos — sem a fotografia e sem peso estimado;
+- exportação **de teste, com dados fictícios e sem alegação de validação real**,
+  gerou `S-EXPORT-006.json` com `boiscan.collection-sample/1`, SHA-256/dimensões
+  da imagem, máscara `rle-0-1-v1`, referência `150 cm`, features em `cm`/`cm^2`,
+  peso de teste `512,5 kg` (fictício), data de teste e avisos — sem a fotografia e
+  sem peso estimado;
 - remover o peso levou a `draft` com `weight-missing` e bloqueio da exportação;
 - limpar a máscara levou a `draft` com `mask-empty`, `physical: null` e bloqueio da
   exportação; o rascunho continuou sendo salvo.
@@ -88,7 +91,7 @@ Fluxo exercitado em Chrome headless com a fixture `bos_indicus-brazil`:
 
 ```text
 npm run typecheck   → aprovado
-npm test            → 20 arquivos, 162 testes aprovados
+npm test            → 20 arquivos, 165 testes aprovados
 npm run build       → aprovado, 37 módulos
 npm run experimental:images → harness executado
 npm audit           → 0 vulnerabilidades

@@ -60,6 +60,8 @@ independente.
 - A amostra só recebe `status: "eligible"` com:
   - ID da amostra e ID pseudônimo válidos;
   - imagem identificada, dimensões positivas e máscara não vazia compatível;
+  - características extraídas correspondentes à máscara final e às dimensões da
+    imagem;
   - referência com comprimento positivo, unidade válida, dois pontos distintos,
     mesmo plano confirmado e incerteza relativa ≤ 10%;
   - peso real positivo em kg;

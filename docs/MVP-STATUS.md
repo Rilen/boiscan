@@ -36,7 +36,7 @@
 | Dataset/treino | ✅ infraestrutura | templates, validação, split agrupado, treinador e demo sintética |
 | Fotos reais + ferramenta | ✅ experimental | 5 fixtures licenciadas, ROI/pincel e exportação local; máscaras parciais |
 | Coleta experimental (006) | ✅ experimental | máscara, escala com unidade, peso real/data, rascunho e amostra elegível versionada |
-| Testes automatizados | ✅ | 162 testes, 20 arquivos |
+| Testes automatizados | ✅ | 165 testes, 20 arquivos |
 | Documentação | ✅ | README + docs técnicos + experimental + protocolo de coleta + dados + Android |
 
 ## Telas
@@ -54,7 +54,7 @@
 
 ```text
 npm run typecheck   → sem erros
-npm test            → 20 arquivos, 162 testes aprovados
+npm test            → 20 arquivos, 165 testes aprovados
 npm run build       → dist/ gerado com sucesso
 ```
 

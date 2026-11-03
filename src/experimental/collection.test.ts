@@ -180,6 +180,41 @@ describe('elegibilidade da amostra de coleta', () => {
     );
   });
 
+  it('rejeita máscara cujas dimensões diferem da imagem analisada', () => {
+    const mask = rectangleMask(50, 40);
+    const sample = buildCollectionSample(
+      sampleInput({
+        mask,
+        features: extractMorphometrics(mask, 50, 40),
+      }),
+    );
+    expect(sample.status).toBe('draft');
+    expect(sample.eligibility.issues.map((issue) => issue.code)).toContain(
+      'mask-dimensions',
+    );
+  });
+
+  it('rejeita máscara não vazia sem características extraídas', () => {
+    const sample = buildCollectionSample(sampleInput({ features: null }));
+    expect(sample.status).toBe('draft');
+    expect(sample.eligibility.issues.map((issue) => issue.code)).toContain(
+      'features-missing',
+    );
+    expect(sample.features.pixels).toBeNull();
+  });
+
+  it('rejeita características que não correspondem à máscara final', () => {
+    const otherMask = rectangleMask(50, 40);
+    const sample = buildCollectionSample(
+      sampleInput({ features: extractMorphometrics(otherMask, 50, 40) }),
+    );
+    expect(sample.status).toBe('draft');
+    expect(sample.eligibility.issues.map((issue) => issue.code)).toContain(
+      'features-inconsistent',
+    );
+    expect(sample.features.physical).toBeNull();
+  });
+
   it('rejeita escala degenerada', () => {
     const sample = buildCollectionSample(
       sampleInput({

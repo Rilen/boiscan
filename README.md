@@ -111,7 +111,7 @@ pode não ser oferecido pelo navegador.
 | `npm run experimental:train -- --input <csv> --output <json>` | Treino reproduzível com gates de dados |
 | `npm run experimental:images` | Avalia o pipeline nas fotos reais e gera overlays ignorados |
 
-Resultados da última execução: **162 testes aprovados**, typecheck limpo, build de
+Resultados da última execução: **165 testes aprovados**, typecheck limpo, build de
 produção concluído e auditoria de dependências sem vulnerabilidades. Testes de
 software não validam precisão preditiva.
 

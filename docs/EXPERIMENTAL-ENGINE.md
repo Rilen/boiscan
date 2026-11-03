@@ -298,7 +298,8 @@ foto local → ROI → máscara corrigida → referência (mm/cm/m) → peso rea
 ```
 
 - `collection.ts` é puro e testável: conversão de unidades, RLE da máscara,
-  elegibilidade, rascunho e medidas físicas condicionais.
+  elegibilidade, rascunho e medidas físicas condicionais. A elegibilidade também
+  exige que as características correspondam à máscara final e às dimensões da imagem.
 - A referência exige dois pontos distintos, mesmo plano confirmado e incerteza
   relativa ≤ 10%; a ferramenta documenta que isso não elimina erros de perspectiva.
 - A amostra `boiscan.collection-sample/1` registra IDs pseudônimos, SHA-256 e

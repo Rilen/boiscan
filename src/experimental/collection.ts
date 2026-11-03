@@ -181,6 +181,8 @@ export type EligibilityIssueCode =
   | 'image-invalid'
   | 'mask-dimensions'
   | 'mask-empty'
+  | 'features-missing'
+  | 'features-inconsistent'
   | 'scale-missing'
   | 'scale-unit-invalid'
   | 'scale-length-invalid'
@@ -469,11 +471,43 @@ export function evaluateSample(input: SampleInput): Eligibility {
       field: 'mask',
       message: 'A máscara não corresponde às dimensões da imagem analisada.',
     });
+  } else if (
+    analysisValid &&
+    (input.mask.width !== image.analysisWidth ||
+      input.mask.height !== image.analysisHeight)
+  ) {
+    issues.push({
+      code: 'mask-dimensions',
+      field: 'mask',
+      message: 'A máscara não corresponde às dimensões da imagem analisada.',
+    });
   } else if (stats.foreground === 0) {
     issues.push({
       code: 'mask-empty',
       field: 'mask',
       message: 'A máscara está vazia. Pinte a silhueta do animal antes de exportar.',
+    });
+  } else if (analysisValid && !input.features) {
+    issues.push({
+      code: 'features-missing',
+      field: 'features',
+      message:
+        'Não foi possível extrair características da máscara. Revise a máscara antes de tornar a amostra elegível.',
+    });
+  } else if (
+    analysisValid &&
+    input.features &&
+    (input.features.maskAreaPx !== stats.foreground ||
+      input.features.maskWidth !== input.mask.width ||
+      input.features.maskHeight !== input.mask.height ||
+      input.features.imageWidth !== image.analysisWidth ||
+      input.features.imageHeight !== image.analysisHeight)
+  ) {
+    issues.push({
+      code: 'features-inconsistent',
+      field: 'features',
+      message:
+        'As características não correspondem à máscara final ou às dimensões da imagem. Recalcule a máscara.',
     });
   }
 
@@ -599,7 +633,16 @@ export function buildCollectionSample(input: SampleInput): CollectionSample {
     input.image.analysisWidth,
     input.image.analysisHeight,
   );
+  const features = input.features;
   const stats = maskStats(input.mask);
+  const featuresConsistent =
+    features !== null &&
+    stats.valid &&
+    features.maskAreaPx === stats.foreground &&
+    features.maskWidth === input.mask.width &&
+    features.maskHeight === input.mask.height &&
+    features.imageWidth === input.image.analysisWidth &&
+    features.imageHeight === input.image.analysisHeight;
 
   let mask: CollectionSample['mask'] = null;
   if (stats.valid) {
@@ -612,9 +655,10 @@ export function buildCollectionSample(input: SampleInput): CollectionSample {
     };
   }
 
-  const physical = input.features
-    ? physicalFeatures(input.features, referenceEvaluation.calibration)
-    : null;
+  const physical =
+    featuresConsistent && features
+      ? physicalFeatures(features, referenceEvaluation.calibration)
+      : null;
 
   return {
     schemaVersion: COLLECTION_SCHEMA_VERSION,
@@ -627,7 +671,10 @@ export function buildCollectionSample(input: SampleInput): CollectionSample {
     mask,
     reference: referenceEvaluation.reference,
     features: {
-      schemaVersion: input.features?.schemaVersion ?? 'boiscan.morphometrics/1',
+      schemaVersion:
+        featuresConsistent && features
+          ? features.schemaVersion
+          : 'boiscan.morphometrics/1',
       units: {
         pixelLength: 'px',
         pixelArea: 'px^2',
@@ -636,7 +683,8 @@ export function buildCollectionSample(input: SampleInput): CollectionSample {
         physicalLength: physical ? 'cm' : null,
         physicalArea: physical ? 'cm^2' : null,
       },
-      pixels: input.features ? pixelFeatures(input.features) : null,
+      pixels:
+        featuresConsistent && features ? pixelFeatures(features) : null,
       physical,
     },
     weight: {
