@@ -14,7 +14,7 @@ import { AlertIcon, InfoIcon, ScaleIcon, ShieldIcon } from '../components/icons'
 /** Preço manual em reais; não interpreta separadores de milhar ambíguos. */
 export function parseArrobaPrice(raw: string): number | null {
   const value = raw.trim();
-  if (!/^\\d+(?:[,.]\\d{1,2})?$/.test(value)) return null;
+  if (!/^\d+(?:[,.]\d{1,2})?$/.test(value)) return null;
   const parsed = Number(value.replace(',', '.'));
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
 }
