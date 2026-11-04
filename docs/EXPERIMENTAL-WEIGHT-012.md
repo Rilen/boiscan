@@ -6,9 +6,9 @@
 
 O preview da branch de Missão 012 ativa o motor pelo parâmetro:
 
-```text
-https://<preview>.boiscan.pages.dev/?experimental=weight
-```
+**Preview publicado (branch):** https://feat-012-experimental-weight.boiscan.pages.dev/?experimental=weight  
+**Build específico:** https://d11c6f92.boiscan.pages.dev/?experimental=weight
+
 
 Sem `?experimental=weight`, o app continua usando o motor indisponível padrão. A produção em `boiscan.pages.dev` não deve ser alterada por esta branch.
 
@@ -62,7 +62,18 @@ Os scripts de treino/exportação estão em `boiscan-benchmark-012` (fora do bun
 
 ## Teste no preview
 
-1. Abra `https://<preview>.boiscan.pages.dev/?experimental=weight`.
+1. Abra `https://feat-012-experimental-weight.boiscan.pages.dev/?experimental=weight`.
 2. Escolha uma foto lateral; aguarde o resultado.
 3. Deve aparecer: “Peso estimado experimental: aproximadamente X kg.” e “Modelo em teste, ainda sem validação de campo.”
 4. Uma foto sem bovino deve mostrar “Nenhum bovino identificável…”, sem número.
+
+## Execução remota verificada
+
+- A-01 (teste, 545 kg): **490 kg**.
+- A-04 (validação, 604 kg): **506 kg**; com 640×480: **502 kg**; com recorte de 75%: **388 kg**.
+- B-0018 (teste, 950 kg): **499 kg** (erro grande, documentado).
+- B-0062 (teste, 120 kg): **97 kg**.
+- Imagem NASA sem bovino: falha “Nenhum bovino identificável…”, sem peso.
+- Imagem 450×338: bloqueada pela qualidade antes do modelo.
+
+Esses números são qualitativos e não substituem a avaliação de 28 animais (MAE 112,59 kg; baseline constante 160,36 kg).
