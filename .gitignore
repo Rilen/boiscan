@@ -35,3 +35,7 @@ data/features/
 experimental-output/
 *.onnx
 *.tfjs
+
+# Missão 012: pesos ONNX do preview experimental (não são dados de treino)
+!public/models/*.onnx
+!public/ort-wasm/*.wasm

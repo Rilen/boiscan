@@ -62,7 +62,8 @@ export interface EstimateUnavailable {
     | 'scale-reference-required'
     | 'scale-unreliable'
     | 'experimental-model-unavailable'
-    | 'experimental-out-of-domain';
+    | 'experimental-out-of-domain'
+    | 'no-bovine-detected';
   message: string;
   details: string[];
 }
