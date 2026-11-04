@@ -76,10 +76,13 @@ describe('tela inicial', () => {
     expect(
       screen.getByText(/Sem cadastro\. Sem rastreamento\./),
     ).toBeInTheDocument();
-    expect(screen.getByText('Estimativa indisponível')).toBeInTheDocument();
+    expect(screen.getByText('Peso experimental — modelo em teste.')).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: 'Política de privacidade' }),
     ).toHaveAttribute('href', '/privacidade.html');
+    expect(
+      screen.getByRole('link', { name: 'Avisos de licença' }),
+    ).toHaveAttribute('href', '/third-party.html');
   });
 
   it('mantém link de salto para o conteúdo', () => {

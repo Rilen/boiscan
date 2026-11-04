@@ -16,6 +16,7 @@
     "experimental:images": "tsx scripts/experimental/real-images.ts"
   },
   "dependencies": {
+    "onnxruntime-web": "^1.23.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

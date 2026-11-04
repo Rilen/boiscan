@@ -1270,3 +1270,17 @@ ul {
     transform: none;
   }
 }
+
+/* Missão 012: resultado numérico experimental, sem confiança/intervalo. */
+.screen--photo-experimental .result-label {
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: clamp(1.2rem, 5vw, 1.7rem);
+  font-weight: 760;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.screen--photo-experimental .result-interval {
+  font-size: 0.95rem;
+}

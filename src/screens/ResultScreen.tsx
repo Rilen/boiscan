@@ -33,6 +33,38 @@ function SuccessResult({
 }) {
   const simulated = estimate.simulated;
   const validated = estimate.model.validated && estimate.status === 'ok' && !simulated;
+  const photoExperimental = estimate.status === 'experimental' && estimate.model.name.includes('fotográfico experimental');
+
+  if (photoExperimental) {
+    return (
+      <section className="screen screen--result screen--photo-experimental">
+        <h1 className="sr-only">Resultado experimental</h1>
+        <div className="result-hero">
+          <p className="result-label" data-testid="photo-weight-result">
+            Peso estimado experimental: aproximadamente {formatKg(estimate.liveWeightKg)}.
+          </p>
+          <p className="result-interval">Modelo em teste, ainda sem validação de campo.</p>
+        </div>
+        <section className="card" aria-labelledby="photo-meta-title">
+          <h2 id="photo-meta-title" className="card__title">Detalhes do experimento</h2>
+          <dl className="meta-list">
+            <div className="meta-list__row"><dt>Modelo</dt><dd>{estimate.model.name}</dd></div>
+            <div className="meta-list__row"><dt>Versão</dt><dd>{estimate.model.version}</dd></div>
+            <div className="meta-list__row"><dt>Data da análise</dt><dd>{formatAnalyzedAt(estimate.analyzedAt)}</dd></div>
+            <div className="meta-list__row"><dt>Situação</dt><dd>Experimental, não validado em campo</dd></div>
+          </dl>
+        </section>
+        <p className="fine-print">A imagem foi processada localmente no navegador. Nenhuma foto foi enviada para um serviço de peso.</p>
+        <div className="actions-stack">
+          <button type="button" className="button button--primary button--large" onClick={onReset}>
+            <ScaleIcon />
+            <span>Analisar outra foto</span>
+          </button>
+        </div>
+      </section>
+    );
+  }
+
   const arrobas = computeHotCarcassArrobas(estimate.liveWeightKg, dressingPercent);
 
   return (
