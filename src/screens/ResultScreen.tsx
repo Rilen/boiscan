@@ -73,6 +73,31 @@ function SuccessResult({
             <div className="meta-list__row"><dt>Situação</dt><dd>Experimental, não validado em campo</dd></div>
           </dl>
         </section>
+        <section className="card" aria-labelledby="experimental-commercial-title">
+          <h2 id="experimental-commercial-title" className="card__title">Simulação comercial experimental</h2>
+          <p className="fine-print">Peso fotográfico não validado. Os números abaixo não devem orientar negociações.</p>
+          <p>Arrobas de carcaça simuladas: {formatArrobas(computeHotCarcassArrobas(estimate.liveWeightKg, dressingPercent))}</p>
+          <DressingSelector value={dressingPercent} onChange={onDressingChange} compact />
+          <label htmlFor="experimental-arroba-price">Preço da arroba (R$)</label>
+          <input
+            id="experimental-arroba-price"
+            type="text"
+            inputMode="decimal"
+            placeholder="Ex.: 320,00"
+            value={priceInput}
+            onChange={(event) => setPriceInput(event.target.value)}
+            aria-invalid={priceInput.trim() !== '' && parseArrobaPrice(priceInput) === null}
+          />
+          {priceInput.trim() !== '' && parseArrobaPrice(priceInput) === null && (
+            <p role="alert">Informe um preço válido, maior ou igual a zero.</p>
+          )}
+          {parseArrobaPrice(priceInput) !== null && (
+            <p aria-live="polite">Valor bruto simulado: <strong>{formatCurrency(
+              computeHotCarcassArrobas(estimate.liveWeightKg, dressingPercent) * parseArrobaPrice(priceInput)!
+            )}</strong></p>
+          )}
+          <p className="fine-print">Valor meramente ilustrativo, sem cotação automática ou garantia comercial.</p>
+        </section>
         <p className="fine-print">A imagem foi processada localmente no navegador. Nenhuma foto foi enviada para um serviço de peso.</p>
         <div className="actions-stack">
           <button type="button" className="button button--primary button--large" onClick={onReset}>
