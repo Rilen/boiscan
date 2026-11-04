@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   computeHotCarcassArrobas,
   formatAnalyzedAt,
@@ -9,6 +10,23 @@ import { qualityLabel, type ImageQuality } from '../domain/imageQuality';
 import type { EstimateSuccess, EstimationResult } from '../engine/types';
 import { DressingSelector } from '../components/DressingSelector';
 import { AlertIcon, InfoIcon, ScaleIcon, ShieldIcon } from '../components/icons';
+
+/** Preço manual em reais; não interpreta separadores de milhar ambíguos. */
+export function parseArrobaPrice(raw: string): number | null {
+  const value = raw.trim();
+  if (!/^\\d+(?:[,.]\\d{1,2})?$/.test(value)) return null;
+  const parsed = Number(value.replace(',', '.'));
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
+}
+
+const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+});
+
+export function formatCurrency(value: number): string {
+  return currencyFormatter.format(value);
+}
 
 interface ResultScreenProps {
   estimate: EstimationResult;
@@ -31,6 +49,7 @@ function SuccessResult({
   onDressingChange: (value: number) => boolean;
   onReset: () => void;
 }) {
+  const [priceInput, setPriceInput] = useState('');
   const simulated = estimate.simulated;
   const validated = estimate.model.validated && estimate.status === 'ok' && !simulated;
   const photoExperimental = estimate.status === 'experimental' && estimate.model.name.includes('fotográfico experimental');
@@ -66,6 +85,8 @@ function SuccessResult({
   }
 
   const arrobas = computeHotCarcassArrobas(estimate.liveWeightKg, dressingPercent);
+  const price = parseArrobaPrice(priceInput);
+  const estimatedValue = price === null ? null : arrobas * price;
 
   return (
     <section className="screen screen--result">
@@ -131,6 +152,39 @@ function SuccessResult({
         <p className="arrobas-card__note">
           O rendimento de carcaça é um pressuposto configurável, não uma medição do
           animal. Arrobas de carcaça não são iguais a arrobas de peso vivo.
+        </p>
+      </section>
+
+      <section className="card" aria-labelledby="commercial-value-title">
+        <h2 id="commercial-value-title" className="card__title">Valor comercial aproximado</h2>
+        <label htmlFor="arroba-price">Preço informado da arroba (R$)</label>
+        <input
+          id="arroba-price"
+          type="text"
+          inputMode="decimal"
+          autoComplete="off"
+          placeholder="Ex.: 320,00"
+          value={priceInput}
+          onChange={(event) => setPriceInput(event.target.value)}
+          aria-describedby="arroba-price-help"
+          aria-invalid={priceInput.trim() !== '' && price === null}
+        />
+        <p id="arroba-price-help" className="fine-print">
+          Informe o preço por arroba de carcaça. Não é uma cotação automática.
+        </p>
+        {priceInput.trim() !== '' && price === null && (
+          <p role="alert">Informe um preço válido, maior ou igual a zero.</p>
+        )}
+        {estimatedValue !== null && (
+          <p aria-live="polite">
+            <strong>{simulated ? 'Valor fictício simulado' : 'Valor bruto aproximado'}: {formatCurrency(estimatedValue)}</strong>
+          </p>
+        )}
+        <p className="fine-print">
+          Cálculo: arrobas de carcaça × preço informado. Não inclui descontos, frete ou
+          custos de comercialização. {simulated
+            ? 'O peso é fictício; este valor serve somente para testar a interface.'
+            : 'O valor depende da precisão do peso e do rendimento pressuposto; não é garantia de venda.'}
         </p>
       </section>
 
