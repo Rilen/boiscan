@@ -8,8 +8,8 @@ export const PHOTO_WEIGHT_DISCLAIMER = 'Modelo em teste, ainda sem validação d
 /**
  * Experimental engine for the Mission 012 preview.
  *
- * It is activated only by `?experimental=weight` (or by an explicit engine prop
- * in tests). The public/default engine remains untouched.
+ * The root route uses this engine directly. An explicit engine prop still
+ * overrides it in tests.
  */
 export function createPhotoWeightEngine(
   options: PhotoWeightOptions = {},

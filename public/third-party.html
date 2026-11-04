@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Avisos de licença — BoiScan</title>
+  <style>
+    body { max-width: 820px; margin: 32px auto; padding: 0 18px; font: 16px/1.55 system-ui, sans-serif; color: #17212b; }
+    h1 { font-size: 1.7rem; } h2 { margin-top: 1.8rem; font-size: 1.15rem; }
+    code { background: #eef2f6; padding: 1px 4px; border-radius: 3px; }
+    .warn { background: #fff7e5; border: 1px solid #e8c77c; padding: 12px 14px; border-radius: 8px; }
+    a { color: #1769aa; }
+  </style>
+</head>
+<body>
+  <h1>Avisos de licença e fontes</h1>
+  <p class="warn"><strong>Build experimental.</strong> O peso exibido é uma estimativa de modelo em teste, sem validação de campo. Não é pesagem comprovada nem precisão validada.</p>
+
+  <h2>YOLO11n-seg — AGPL-3.0</h2>
+  <p>O gate de presença de bovino usa o modelo <code>yolo11n-seg.pt</code> / <code>yolo11n-seg.onnx</code> da Ultralytics, licenciado sob <strong>GNU Affero General Public License v3.0 (AGPL-3.0)</strong>. O código-fonte do Ultralytics está em <a href="https://github.com/ultralytics/ultralytics">github.com/ultralytics/ultralytics</a>; os pesos do modelo em <a href="https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo11n-seg.pt">assets v8.4.0</a>. O código-fonte deste aplicativo está em <a href="https://github.com/Rilen/boiscan">github.com/Rilen/boiscan</a>. Consulte <a href="/licenses/AGPL-3.0.txt">o texto da AGPL-3.0</a>. A AGPL não é uma licença comercial; o uso/distribuição deve observar suas obrigações de código-fonte e aviso.</p>
+
+  <h2>MobileNetV3-small — BSD-3-Clause</h2>
+  <p>O extrator de características usa <code>mobilenet_v3_small</code> do torchvision/PyTorch, sob <strong>BSD-3-Clause</strong>. Pesos ImageNet: <a href="https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth">download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth</a>. Texto: <a href="/licenses/BSD-3-Clause.txt">BSD-3-Clause</a>.</p>
+
+  <h2>ONNX Runtime Web — MIT</h2>
+  <p>Inferência local no navegador via <code>onnxruntime-web</code>, sob licença <strong>MIT</strong>. Texto: <a href="/licenses/MIT.txt">MIT</a>. O runtime não recebe a fotografia; os arquivos do modelo são servidos pelo próprio site.</p>
+
+  <h2>Dados de treinamento — CC BY 4.0</h2>
+  <ul>
+    <li><strong>Cattle side view and back view dataset</strong>, DOI <a href="https://doi.org/10.17632/h2s22wr5py.3">10.17632/h2s22wr5py.3</a>, CC BY 4.0.</li>
+    <li><strong>Multi-View Cow Image Dataset for AI-Based Weight Estimation</strong>, DOI <a href="https://doi.org/10.17632/vf7pxfs7dx.1">10.17632/vf7pxfs7dx.1</a>, CC BY 4.0.</li>
+  </ul>
+  <p>Texto da licença: <a href="/licenses/CC-BY-4.0.txt">CC BY 4.0</a>. Os rótulos de peso dessas bases têm origem e método de pesagem não documentados; não há escala física. A responsabilidade de atribuição das bases é preservada.</p>
+
+  <h2>Coeficientes de regressão</h2>
+  <p>Os coeficientes do modelo <code>photo-embedding-ridge</code> (<code>public/models/photo-weight-v1.json</code>) foram treinados para este experimento. O artefato contém métricas, fontes e limitações; não contém fotografias. Não há promessa de precisão ou adequação comercial.</p>
+
+  <h2>CID / CattleNet-XAI</h2>
+  <p>O artigo CattleNet-XAI (DOI <a href="https://doi.org/10.1371/journal.pone.0336434">10.1371/journal.pone.0336434</a>) e o repositório CID foram verificados, mas não forneceram pesos treinados utilizáveis neste build. Nenhum resultado publicado por terceiros é atribuído ao BoiScan; o MAE 18,02 kg do artigo não é o MAE deste modelo.</p>
+
+  <p><a href="/">Voltar ao BoiScan</a></p>
+</body>
+</html>

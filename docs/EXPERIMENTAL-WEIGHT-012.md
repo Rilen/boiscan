@@ -1,18 +1,19 @@
 # Peso experimental por fotografia — Missão 012
 
-**Estado:** preview experimental; modelo não validado em campo. Não é pesagem comprovada.
+**Estado:** publicado experimentalmente em produção; modelo não validado em campo. Não é pesagem comprovada.
 
 ## Como abrir
 
-O preview da branch de Missão 012 ativa o motor pelo parâmetro:
+A rota principal abre diretamente o fluxo experimental; não é necessário parâmetro de URL.
 
-**Preview publicado (branch):** https://feat-012-experimental-weight.boiscan.pages.dev/?experimental=weight  
-**Build específico:** https://d11c6f92.boiscan.pages.dev/?experimental=weight
+- **Produção:** https://boiscan.pages.dev/
+- **Preview da branch:** https://feat-012-experimental-weight.boiscan.pages.dev/
 
-
-Sem `?experimental=weight`, o app continua usando o motor indisponível padrão. A produção em `boiscan.pages.dev` não deve ser alterada por esta branch.
+O build inclui o modelo e o runtime ONNX; a fotografia permanece no navegador.
 
 ## Modelo
+
+Avisos de licença e fontes: [/third-party.html](/third-party.html). YOLO11n-seg é AGPL-3.0; MobileNetV3/torchvision é BSD-3-Clause; ONNX Runtime é MIT; as bases A/B são CC BY 4.0.
 
 - Versão: `2026-11-04-v1` (`photo-embedding-ridge`).
 - Backbone: MobileNetV3-small (ImageNet, torchvision), exportado para ONNX; 576-d embedding.
@@ -54,7 +55,7 @@ O modelo melhora o baseline constante no agregado, mas o erro é alto, o A tem R
 - Enquadramento/corte altera a previsão; em teste, A-04 caiu de 506 kg para 388 kg com um recorte de 75%.
 - Fotos de B muito grande/pequena podem errar muito (ex.: B-0018 950 kg → 499 kg no teste).
 - Sem escala física; nenhum cm é recuperado. Nenhum peso é “pesagem comprovada”.
-- YOLO11 é AGPL-3.0; o gate é apenas para preview experimental. Não distribuir produto fechado sem licença/revisão.
+- YOLO11 é AGPL-3.0; o gate é distribuído neste build público experimental. O código-fonte está no repositório; uso comercial fechado exige licença/revisão jurídica. Ver `/third-party.html`.
 
 ## Reprodução local do treino
 
@@ -62,7 +63,7 @@ Os scripts de treino/exportação estão em `boiscan-benchmark-012` (fora do bun
 
 ## Teste no preview
 
-1. Abra `https://feat-012-experimental-weight.boiscan.pages.dev/?experimental=weight`.
+1. Abra `https://boiscan.pages.dev/` (ou o preview da branch).
 2. Escolha uma foto lateral; aguarde o resultado.
 3. Deve aparecer: “Peso estimado experimental: aproximadamente X kg.” e “Modelo em teste, ainda sem validação de campo.”
 4. Uma foto sem bovino deve mostrar “Nenhum bovino identificável…”, sem número.

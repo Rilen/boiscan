@@ -3,7 +3,6 @@ import { APP_NAME, APP_VERSION } from './config';
 import { EngineBadge } from './components/EngineBadge';
 import { ShieldIcon } from './components/icons';
 import { createPhotoWeightEngine } from './engine/photoWeightEngine';
-import { resolveEngine } from './engine/registry';
 import type { WeightEstimationEngine } from './engine/types';
 import { useBoiScanFlow } from './hooks/useBoiScanFlow';
 import { AnalyzingScreen } from './screens/AnalyzingScreen';
@@ -16,15 +15,10 @@ export interface AppProps {
 }
 
 export default function App({ engine: engineProp }: AppProps) {
-  const engine = useMemo(() => {
-    if (engineProp) return engineProp;
-    const params = typeof window !== 'undefined'
-      ? new URLSearchParams(window.location.search)
-      : null;
-    if (params?.get('experimental') === 'weight') return createPhotoWeightEngine();
-    if (import.meta.env.VITE_EXPERIMENTAL_WEIGHT === 'true') return createPhotoWeightEngine();
-    return resolveEngine(import.meta.env);
-  }, [engineProp]);
+  const engine = useMemo(
+    () => engineProp ?? createPhotoWeightEngine(),
+    [engineProp],
+  );
   const flow = useBoiScanFlow(engine);
 
   const showHome = () => {
@@ -125,6 +119,10 @@ export default function App({ engine: engineProp }: AppProps) {
         <p className="footer__meta">
           <a className="footer__link" href="/privacidade.html">
             Política de privacidade
+          </a>
+          <span aria-hidden="true"> · </span>
+          <a className="footer__link" href="/third-party.html">
+            Avisos de licença
           </a>
           <span aria-hidden="true"> · </span>
           {APP_NAME} {APP_VERSION} · {engine.name}

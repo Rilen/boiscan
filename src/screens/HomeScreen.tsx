@@ -21,6 +21,7 @@ export function HomeScreen({
 }: HomeScreenProps) {
   const isSimulation = engine.id === 'simulation';
   const unavailable = engine.availability === 'unavailable';
+  const photoExperimental = engine.id === 'photo-weight-experimental';
 
   return (
     <section className="screen screen--home">
@@ -29,8 +30,8 @@ export function HomeScreen({
         <h1 className="display">{APP_NAME}</h1>
         <p className="tagline">Peso bovino estimado por imagem.</p>
         <p className="lede">
-          Fotografe o animal de lado e receba uma estimativa de peso vivo e de arrobas
-          comerciais — quando houver um modelo validado disponível.
+          Fotografe o animal de lado e receba uma estimativa experimental de peso vivo.
+          Modelo em teste, ainda sem validação de campo.
         </p>
       </div>
 
@@ -90,6 +91,19 @@ export function HomeScreen({
               Esta instalação não possui um modelo validado conectado. Você pode
               fotografar, conferir a qualidade da imagem e conhecer as limitações — sem
               números inventados.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {photoExperimental && (
+        <div className="notice notice--warning">
+          <InfoIcon className="notice__icon" />
+          <div>
+            <p className="notice__title">Peso experimental — modelo em teste.</p>
+            <p className="notice__text">
+              A estimativa é gerada por um modelo ainda sem validação de campo. Pode
+              errar, inclusive em animais grandes. Não use para decisão comercial.
             </p>
           </div>
         </div>

@@ -1,0 +1,14 @@
+BoiScan experimental weight preview
+===================================
+
+This build includes YOLO11n-seg (Ultralytics) under AGPL-3.0. The corresponding
+source is the public BoiScan repository (https://github.com/Rilen/boiscan) and
+the Ultralytics repository (https://github.com/ultralytics/ultralytics).
+The combined build is distributed under AGPL-3.0; see LICENSE.
+
+It also includes:
+- MobileNetV3-small / torchvision weights under BSD-3-Clause;
+- ONNX Runtime Web under MIT;
+- training data A/B under CC BY 4.0 (attribution in /third-party.html).
+
+The numeric result is experimental and is not a validated weighing.
